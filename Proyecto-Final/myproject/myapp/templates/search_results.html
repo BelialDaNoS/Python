@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados de búsqueda - Mi Proyecto Django{% endblock %}
+
+{% block header %}Resultados de búsqueda{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Categorías</h2>
+        <ul>
+            {% for categoria in categorias %}
+                <li>{{ categoria.nombre }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section>
+        <h2>Productos</h2>
+        <ul>
+            {% for producto in productos %}
+                <li>{{ producto.nombre }} - {{ producto.categoria }} - ${{ producto.precio }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section>
+        <h2>Clientes</h2>
+        <ul>
+            {% for cliente in clientes %}
+                <li>{{ cliente.nombre }} - {{ cliente.direccion }} - {{ cliente.email }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

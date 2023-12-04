@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Agregar {{ model_name|title }} - Mi Proyecto Django{% endblock %}
+
+{% block header %}Agregar {{ model_name|title }}{% endblock %}
+
+{% block content %}
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar</button>
+    </form>
+{% endblock %}
