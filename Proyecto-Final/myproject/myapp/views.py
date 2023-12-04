@@ -32,7 +32,21 @@ def add_data(request, model_name):
 def search_data(request):
     if request.method == 'GET':
         query = request.GET.get('q')
-        categorias = Categoria.objects.filter(nombre__icontains=query)
-        productos = Producto.objects.filter(nombre__icontains=query)
-        clientes = Cliente.objects.filter(nombre__icontains=query)
-        return render(request, 'search_results.html', {'categorias': categorias, 'productos': productos, 'clientes': clientes})
+
+        if query is not None:
+            categorias = Categoria.objects.filter(nombre__icontains=query)
+            productos = Producto.objects.filter(nombre__icontains=query)
+            clientes = Cliente.objects.filter(nombre__icontains=query)
+        else:
+            categorias = []
+            productos = []
+            clientes = []
+
+        context = {
+            'categorias': categorias,
+            'productos': productos,
+            'clientes': clientes,
+            'query': query,
+        }
+
+        return render(request, 'search_results.html', context)
