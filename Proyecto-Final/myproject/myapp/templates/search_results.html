@@ -5,12 +5,10 @@
 {% block header %}Resultados de búsqueda{% endblock %}
 
 {% block content %}
-    <!-- Barra de búsqueda -->
     <form method="get" action="{% url 'search_data' %}">
         <input type="text" name="q" placeholder="Buscar...">
         <button type="submit">Buscar</button>
     </form>
-
     <section>
         <h2>Categorías</h2>
         <ul>

@@ -5,17 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Mi Proyecto Django{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>{% block header %}Mi Proyecto Django{% endblock %}</h1>
         <nav>
             <ul>
-                <li><a href="{% url 'index' %}">Inicio</a></li>
-                <li><a href="{% url 'add_data' 'categoria' %}">Agregar Categoría</a></li>
-                <li><a href="{% url 'add_data' 'producto' %}">Agregar Producto</a></li>
-                <li><a href="{% url 'add_data' 'cliente' %}">Agregar Cliente</a></li>
-                <li><a href="{% url 'search_data' %}">Buscar</a></li>
+                <li><a href="{% url 'index' %}" style="color: #fff; text-decoration: none;">Inicio</a></li>
+                <li><a href="{% url 'add_data' 'categoria' %}" style="color: #fff; text-decoration: none;">Agregar Categoría</a></li>
+                <li><a href="{% url 'add_data' 'producto' %}" style="color: #fff; text-decoration: none;">Agregar Producto</a></li>
+                <li><a href="{% url 'add_data' 'cliente' %}" style="color: #fff; text-decoration: none;">Agregar Cliente</a></li>
+                <li><a href="{% url 'search_data' %}" style="color: #fff; text-decoration: none;">Buscar</a></li>
             </ul>
         </nav>
     </header>
