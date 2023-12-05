@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Categoria, Producto, Cliente
 from .forms import CategoriaForm, ProductoForm, ClienteForm
+from django.db.models import Q
 
 def index(request):
     categorias = Categoria.objects.all()
@@ -32,21 +33,26 @@ def add_data(request, model_name):
 def search_data(request):
     if request.method == 'GET':
         query = request.GET.get('q')
-
-        if query is not None:
-            categorias = Categoria.objects.filter(nombre__icontains=query)
-            productos = Producto.objects.filter(nombre__icontains=query)
-            clientes = Cliente.objects.filter(nombre__icontains=query)
+        
+        if query:
+            # Realiza una búsqueda en todas las tablas y campos relevantes
+            categorias = Categoria.objects.filter(
+                Q(nombre__icontains=query)
+            )
+            
+            productos = Producto.objects.filter(
+                Q(nombre__icontains=query) |
+                Q(categoria__nombre__icontains=query) |  # Asumiendo que categoria es una ForeignKey en Producto
+                Q(precio__icontains=query)
+            )
+            
+            clientes = Cliente.objects.filter(
+                Q(nombre__icontains=query) |
+                Q(direccion__icontains=query) |
+                Q(email__icontains=query)
+            )
+            
+            return render(request, 'search_results.html', {'categorias': categorias, 'productos': productos, 'clientes': clientes})
         else:
-            categorias = []
-            productos = []
-            clientes = []
-
-        context = {
-            'categorias': categorias,
-            'productos': productos,
-            'clientes': clientes,
-            'query': query,
-        }
-
-        return render(request, 'search_results.html', context)
+            # Handle the case where the query is None (or empty) as needed
+            return render(request, 'search_results.html', {'categorias': [], 'productos': [], 'clientes': []})
