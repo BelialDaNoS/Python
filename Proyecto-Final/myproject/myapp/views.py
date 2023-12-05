@@ -51,8 +51,10 @@ def search_data(request):
                 Q(direccion__icontains=query) |
                 Q(email__icontains=query)
             )
-            
-            return render(request, 'search_results.html', {'categorias': categorias, 'productos': productos, 'clientes': clientes})
         else:
-            # Handle the case where the query is None (or empty) as needed
-            return render(request, 'search_results.html', {'categorias': [], 'productos': [], 'clientes': []})
+            # Si la búsqueda es None o está vacía, obtén todos los elementos
+            categorias = Categoria.objects.all()
+            productos = Producto.objects.all()
+            clientes = Cliente.objects.all()
+
+        return render(request, 'search_results.html', {'categorias': categorias, 'productos': productos, 'clientes': clientes})
