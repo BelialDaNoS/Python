@@ -15,10 +15,38 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     
     <script>
+        function isValidEmail(email) {
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
         function showConfirmation() {
+            var modelName = "{{ model_name }}"; 
+
+            if (modelName === 'cliente') {
+                var email = $('#id_email').val();
+                if (!isValidEmail(email)) {
+                    Swal.fire('Error', 'Ingresa un correo electrónico válido.', 'error');
+                    return; 
+                }
+            }
+
+            var info = "";
+            if (modelName === 'categoria') {
+                info = $('#id_nombre').val();
+            } else if (modelName === 'producto') {
+                info = $('#id_nombre').val() + '<br>' +
+                       'Categoría: ' + $('#id_categoria').val() + '<br>' +
+                       'Precio: ' + $('#id_precio').val();
+            } else if (modelName === 'cliente') {
+                info = $('#id_nombre').val() + '<br>' +
+                       '(' + $('#id_email').val() + ')' + '<br>' +
+                       'Dirección: ' + $('#id_direccion').val();
+            }
+
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: '¡Se añadirá {{ model_name }}!',
+                html: 'Se añadirá el/la ' + modelName + ':<br>' + info,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -26,18 +54,15 @@
                 confirmButtonText: 'Sí, guardar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Cuando el usuario confirma, enviar el formulario de manera asincrónica
                     $.ajax({
                         url: $('#addForm').attr('action'),
                         type: $('#addForm').attr('method'),
                         data: $('#addForm').serialize(),
                         success: function(response) {
-                            // Manejar la respuesta si es necesario
-                            Swal.fire('¡Guardado!', 'El {{ model_name }} ha sido añadido.', 'success');
+                            Swal.fire('¡Guardado!', 'El ' + modelName + ' ha sido añadido.', 'success');
                         },
                         error: function(error) {
-                            // Manejar el error si es necesario
-                            Swal.fire('Error', 'Hubo un problema al guardar el {{ model_name }}.', 'error');
+                            Swal.fire('Error', 'Hubo un problema al guardar el ' + modelName + '.', 'error');
                         }
                     });
                 }

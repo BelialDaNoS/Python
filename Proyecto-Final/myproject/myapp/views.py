@@ -6,8 +6,9 @@ from django.db.models import Q
 def index(request):
     categorias = Categoria.objects.all()
     productos = Producto.objects.all()
-    clientes = Cliente.objects.all()
+    clientes = Cliente.objects.all() 
     return render(request, 'index.html', {'categorias': categorias, 'productos': productos, 'clientes': clientes})
+
 
 def add_data(request, model_name):
     if request.method == 'POST':
@@ -35,14 +36,13 @@ def search_data(request):
         query = request.GET.get('q')
         
         if query:
-            # Realiza una búsqueda en todas las tablas y campos relevantes
             categorias = Categoria.objects.filter(
                 Q(nombre__icontains=query)
             )
             
             productos = Producto.objects.filter(
                 Q(nombre__icontains=query) |
-                Q(categoria__nombre__icontains=query) |  # Asumiendo que categoria es una ForeignKey en Producto
+                Q(categoria__nombre__icontains=query) |
                 Q(precio__icontains=query)
             )
             
@@ -52,7 +52,6 @@ def search_data(request):
                 Q(email__icontains=query)
             )
         else:
-            # Si la búsqueda es None o está vacía, obtén todos los elementos
             categorias = Categoria.objects.all()
             productos = Producto.objects.all()
             clientes = Cliente.objects.all()
